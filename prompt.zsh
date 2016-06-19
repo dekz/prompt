@@ -36,7 +36,7 @@ function PR_ERROR() {
 
 # The arrow in red (for root) or violet (for regular user)
 function PR_ARROW() {
-    echo "%B%(?:%F{green}$PR_ARROW_CHAR %f:%F{red}$PR_ARROW_CHAR%b"
+    echo "%B%(?:%F{green}$PR_ARROW_CHAR %f%b:%F{red}$PR_ARROW_CHAR%f%b"
 }
 
 # Set custom rhs prompt
