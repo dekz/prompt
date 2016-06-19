@@ -19,36 +19,10 @@ RPR_SHOW_HOST=false
 PROMPT_MODE=0
 RPR_SHOW_GIT=true # Set to false to disable git status in rhs prompt
 
-# Make using 256 colors easier
-#if [[ "$(tput colors)" == "256" ]]; then
-#    source ~/.zsh/plugins/spectrum.zsh
-#    # change default colors
-#    fg[green]=$FG[064]
-#    fg[cyan]=$FG[037]
-#    fg[blue]=$FG[033]
-#    fg[teal]=$FG[041]
-#    fg[red]=$FG[160]
-#    fg[orange]=$FG[166]
-#    fg[yellow]=$FG[136]
-#    fg[magenta]=$FG[125]
-#    fg[violet]=$FG[061]
-#    fg[brown]=$FG[094]
-#    fg[neon]=$FG[112]
-#    fg[pink]=$FG[183]
-#    fg[darkred]=$FG[088]
-#else
-#    fg[teal]=$fg[blue]
-#    fg[orange]=$fg[yellow]
-#    fg[violet]=$fg[magenta]
-#    fg[brown]=$fg[orange]
-#    fg[neon]=$fg[green]
-#    fg[pink]=$fg[magenta]
-#    fg[darkred]=$fg[red]
-#fi
-
 function PR_DIR() {
     local sub=${1}
-    local _pwd="%B%c%b"
+    #local _pwd="%B%c%b"
+    local _pwd="%c"
     if [[ "${sub}" == "" ]]; then
       #_pwd="${${${${(@j:/:M)${(@s:/:)pwd}##.#?}:h}%/}//\%/%%}/${${pwd:t}//\%/%%}"
     fi
@@ -62,7 +36,7 @@ function PR_ERROR() {
 
 # The arrow in red (for root) or violet (for regular user)
 function PR_ARROW() {
-    echo "%B%(?:%F{green}$PR_ARROW_CHAR %f:%F{red}$PR_ARROW_CHAR"
+    echo "%B%(?:%F{green}$PR_ARROW_CHAR %f:%F{red}$PR_ARROW_CHAR%b"
 }
 
 # Set custom rhs prompt
@@ -160,7 +134,7 @@ function git_prompt_string() {
     if [[ "${RPR_SHOW_GIT}" == "true" ]]; then
         local git_where="$(parse_git_branch)"
         local git_detached="$(parse_git_detached)"
-        [ -n "$git_where" ] && echo " %{$fg[magenta]%}%B${git_where#(refs/heads/|tags/)}%b$git_detached$GIT_PROMPT_SUFFIX$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX"
+        [ -n "$git_where" ] && echo " %{$fg[magenta]%}${git_where#(refs/heads/|tags/)}$git_detached$GIT_PROMPT_SUFFIX$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX"
     fi
 }
 
@@ -172,11 +146,12 @@ function PR_JOBS {
 
   if [[ "$indicator" == "" ]]; then
     if [[ "${_jobs}" -gt 0 ]]; then
+      # Too many jobs to display
       indicator="⠿"
     fi
   fi
 
-  echo "%{$fg[magenta]%}$indicator%b "
+  [ -n "$indicator" ] && echo "%F%{$fg[magenta]%}$indicator%f "
 }
 
 
