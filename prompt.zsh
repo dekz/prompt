@@ -139,7 +139,7 @@ function git_prompt_string() {
 }
 
 function PR_JOBS {
-  indicators=("⠁" "⠃" "⠇" "⠗" "⠷" "⠿")
+  indicators=("⠂" "⠃" "⠇" "⠗" "⠷" "⠿")
 
   _jobs=$(jobs -l | wc -l | sed -E 's/\ +$//' | sed -E 's/^\ +//')
   indicator=${indicators[${_jobs}]}
