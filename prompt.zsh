@@ -164,6 +164,22 @@ function git_prompt_string() {
     fi
 }
 
+function PR_JOBS {
+  indicators=("⠁" "⠃" "⠇" "⠗" "⠷" "⠿")
+
+  _jobs=$(jobs -l | wc -l | sed -E 's/\ +$//' | sed -E 's/^\ +//')
+  indicator=${indicators[${_jobs}]}
+
+  if [[ "$indicator" == "" ]]; then
+    if [[ "${_jobs}" -gt 0 ]]; then
+      indicator="⠿"
+    fi
+  fi
+
+  echo "%{$fg[magenta]%}$indicator%b "
+}
+
+
 # Function to toggle between prompt modes
 function tog() {
     if [[ "${PROMPT_MODE}" == 0 ]]; then
@@ -178,7 +194,7 @@ function tog() {
 # Prompt
 function PCMD() {
     if [[ "${PROMPT_MODE}" == 0 ]]; then
-        echo "$(PR_DIR) $(PR_ARROW) " # space at the end
+        echo "$(PR_JOBS)$(PR_DIR) $(PR_ARROW) " # space at the end
     elif [[ "${PROMPT_MODE}" == 1 ]]; then
         echo "$(PR_DIR 1) $(PR_ARROW) " # space at the end
     else
