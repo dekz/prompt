@@ -134,7 +134,7 @@ function git_prompt_string() {
     if [[ "${RPR_SHOW_GIT}" == "true" ]]; then
         local git_where="$(parse_git_branch)"
         local git_detached="$(parse_git_detached)"
-        [ -n "$git_where" ] && echo " %{$fg[magenta]%}${git_where#(refs/heads/|tags/)}$git_detached$GIT_PROMPT_SUFFIX$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX"
+        [ -n "$git_where" ] && echo " %F{magenta}${git_where#(refs/heads/|tags/)}$git_detached$GIT_PROMPT_SUFFIX$GIT_PROMPT_SYMBOL$(parse_git_state)$GIT_PROMPT_PREFIX%f"
     fi
 }
 
@@ -151,7 +151,7 @@ function PR_JOBS {
     fi
   fi
 
-  [ -n "$indicator" ] && echo "%F%{$fg[magenta]%}$indicator%f "
+  [ -n "$indicator" ] && echo "%F{magenta}$indicator%f "
 }
 
 
