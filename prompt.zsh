@@ -51,9 +51,9 @@ function RPR_USER() {
 function RPR_HOST() {
     local colors
     colors=(yellow pink darkred brown neon teal)
-    local index=$(python -c "print(hash('$(hostname)') % ${#colors} + 1)")
-    local color=$colors[index]
     if [[ "${RPR_SHOW_HOST}" == "true" ]]; then
+        local index=$(python -c "print(hash('$(hostname)') % ${#colors} + 1)")
+        local color=$colors[index]
         echo "%{$fg[$color]%}%m%{$reset_color%}"
     fi
 }
@@ -138,11 +138,10 @@ function git_prompt_string() {
     fi
 }
 
+indicators=("⠂" "⠃" "⠇" "⠗" "⠷" "⠿")
 function PR_JOBS {
-  indicators=("⠂" "⠃" "⠇" "⠗" "⠷" "⠿")
-
-  _jobs=$(jobs -l | wc -l | sed -E 's/\ +$//' | sed -E 's/^\ +//')
-  indicator=${indicators[${_jobs}]}
+  local _jobs=$(jobs -l | wc -l | sed -E 's/\ +$//' | sed -E 's/^\ +//')
+  local indicator=${indicators[${_jobs}]}
 
   if [[ "$indicator" == "" ]]; then
     if [[ "${_jobs}" -gt 0 ]]; then
